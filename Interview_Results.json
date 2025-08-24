@@ -1,0 +1,19 @@
+{
+  "projectName": "Cashier App",
+  "businessNeeds": "To create a cashier application for the store to be used by cashiers and managers, improving sales processing, inventory management, and reporting.",
+  "targetUsers": [
+    "Cashiers",
+    "Managers"
+  ],
+  "keyFeatures": [
+    "Sales Processing",
+    "Inventory Management",
+    "Reporting",
+    "User Management",
+    "Payment Processing"
+  ],
+  "technicalSpecs": [
+    "Operating System: Windows 11",
+    "Database: MySQL"
+  ]
+}

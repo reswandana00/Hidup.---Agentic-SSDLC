@@ -1,0 +1,20 @@
+{
+  "projectName": "Cashier App",
+  "operatingSystem": [
+    "Windows 11"
+  ],
+  "dependencies": [
+    "MySQL"
+  ],
+  "networkRequirements": [
+    "Akses ke jaringan lokal (LAN) untuk komunikasi antar komponen aplikasi dan database (jika dihosting lokal).",
+    "Akses internet untuk manajer yang mengakses secara remote.",
+    "Konektivitas jaringan yang stabil untuk mengakses database, baik lokal maupun remote (tergantung implementasi)."
+  ],
+  "securityBaseline": [
+    "Otentikasi pengguna (username dan password) untuk kasir dan manajer.",
+    "Otorisasi berbasis peran untuk membedakan hak akses kasir dan manajer.",
+    "Enkripsi data sensitif (misalnya, data transaksi) saat transit dan saat disimpan (jika relevan).",
+    "Komunikasi aman (misalnya, melalui SSL/TLS) antara aplikasi dan database."
+  ]
+}
