@@ -1,79 +1,32 @@
-# Cashier App Documentation
+# *Hidup*. : Agentic SSDLC
 
-This document provides comprehensive information about the Cashier App, including its features, technical specifications, and system design.
+## Gambaran Umum
 
-## Project Overview
+Proyek ini mengimplementasikan sistem AI Agentic di dalam **Secure Software Development Lifecycle (SSDLC)**. Sistem menggunakan alur kerja yang terstruktur, modular, dan terorganisir untuk mengotomatisasi serta meningkatkan berbagai tahap pengembangan perangkat lunak—mulai dari pengumpulan kebutuhan awal hingga desain dan dokumentasi.
 
-The Cashier App is designed to streamline sales processing, inventory management, and reporting for retail stores. It caters to both cashiers and managers, offering role-based access and a user-friendly interface.
+Sistem dibangun dengan kombinasi **Pydantic AI** dan **LangGraph**, memberikan dasar yang kuat untuk alur kerja yang terstruktur, skalabel, dan adaptif. Pendekatan agentic ini membuat proses pengembangan lebih transparan, modular, dan **secure by design**.
 
-## Key Features
+---
 
-- **Sales Processing**: Efficiently handle customer transactions.
-- **Inventory Management**: Track stock levels, add new products, and manage existing inventory.
-- **Reporting**: Generate sales reports, inventory reports, and other analytical insights for managers.
-- **User Management**: Administer user accounts for cashiers and managers with distinct permissions.
-- **Payment Processing**: Integrate various payment methods for seamless transactions.
+## Cara Kerja
 
-## System Architecture
+Sistem menerapkan alur kerja multi-agen yang diorkestrasi oleh **LangGraph**. Proses dimulai dari analisis intent (maksud) pengguna, lalu dialirkan ke agen-agen khusus yang masing-masing menangani tahapan spesifik SSDLC.
 
-### C4 Context Diagram
-```mermaid
-C4Context
-    title System Context for Cashier App
+### Komponen Utama
 
-    Person(cashier, "Cashier", "Processes sales transactions")
-    Person(manager, "Manager", "Manages inventory, users, and reports")
+- **Intent Agent** — Mengklasifikasikan input pengguna sebagai `ask`, `agent_mode`, atau `complete_workflow`.
+- **Router** — Mengarahkan permintaan ke agen/workflow sesuai hasil analisis intent.
+- **Workflow Graph** — Graf berstatus (stateful) dengan LangGraph yang mendefinisikan urutan operasi dan transisi antar agen.
 
-    System(cashierApp, "Cashier App", "The main cashier application")
+### Alur Kerja Agentic (SSDLC)
 
-    System_Boundary(cashierAppBoundary, "Cashier App System") {
-        Container(cashierClient, "Cashier App Client", "Desktop Application", "Used by Cashiers for sales processing")
-        Container(managerInterface, "Manager Interface", "Web/Desktop Application", "Used by Managers for management tasks")
-        Container(appServer, "Application Server", "Python Flask Application", "Handles business logic and data access")
-        Container(mysqlDB, "MySQL Database", "Database", "Stores product, sales, user, and inventory data")
-    }
+1. **Interviewer Agent** — Mengumpulkan kebutuhan proyek awal secara percakapan.
+2. **Planner Agent** — Menghasilkan analisis kebutuhan lingkungan & keamanan dari hasil interview.
+3. **Designer Agent** — Menyusun desain sistem berdasarkan perencanaan.
+4. **Coder Agent** — Menghasilkan dokumentasi & struktur kode berdasarkan desain.
 
-    Rel(cashier, cashierClient, "Uses")
-    Rel(manager, managerInterface, "Uses")
-    Rel_U(cashierClient, appServer, "Sends requests to")
-    Rel_U(managerInterface, appServer, "Sends requests to")
-    Rel_U(appServer, mysqlDB, "Reads from and writes to", "SQL/TCP")
+Setiap agen bersifat modular (dapat diganti/diperluas). Utilitas **Memory** menyimpan konteks lintas tahap agar alur tetap konsisten.
 
-    Rel_Neighbor(manager, appServer, "Accesses remotely (if web-based)", "HTTPS/Internet")
-```
+## Demonstrasi
 
-### Data Flow Diagram
-```mermaid
-graph TD
-    A[User (Cashier/Manager)] --> B(Cashier App Client / Manager Interface)
-    B --> C{Application Server}
-    C -- Read/Write Data --> D[MySQL Database]
-    D -- Query Results --> C
-    C -- Processed Data/Responses --> B
-    B --> A
-
-    subgraph Security Considerations
-        C -- Encrypted in Transit --> D
-        D -- Encrypted at Rest --> E[Encrypted Data Storage]
-        B -- Encrypted over Internet (for Manager Remote) --> C
-    end
-```
-
-## Security Considerations
-
-### Authentication and Authorization
-- **User Authentication**: Both cashiers and managers will be authenticated using usernames and passwords.
-- **Role-Based Authorization**: Access to features will be determined by user roles (Cashier or Manager), ensuring that users only have permissions relevant to their responsibilities.
-
-### Data Protection
-- **Encryption in Transit**: Sensitive data, especially during communication between the application server and the MySQL database, will be encrypted using SSL/TLS.
-- **Encryption at Rest**: Sensitive data stored in the MySQL database (e.g., transaction details) will be encrypted.
-
-### Network Security
-- **Secure Communication**: All communication within the local network (LAN) and over the internet (for remote manager access) will utilize secure protocols (e.g., HTTPS for web interfaces, SSL/TLS for database connections).
-- **Untrusted Networks**: The internet is considered an untrusted network. Remote access for managers will be secured via SSL/TLS to protect data in transit.
-
-## Environment Requirements
-
-- **Operating System**: Windows 11
-- **Database**: MySQL
+Demostrasi Prototype: [https://drive.google.com/file/d/1whOVSh0Y2QPgzDdlpELPncOLLEbxQvsc/view?usp=sharing](https://drive.google.com/file/d/1whOVSh0Y2QPgzDdlpELPncOLLEbxQvsc/view?usp=sharing)
